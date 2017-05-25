@@ -59,75 +59,67 @@ public inline operator fun BigInteger.inc(): BigInteger = this.add(BigInteger.ON
 @kotlin.internal.InlineOnly
 public inline operator fun BigInteger.dec(): BigInteger = this.subtract(BigInteger.ONE)
 
-
+/** Inverts the bits including the sign bit in this value. */
 @SinceKotlin("1.2")
 @kotlin.internal.InlineOnly
 public inline fun BigInteger.inv(): BigInteger = this.not()
 
+/** Performs a bitwise AND operation between the two values. */
 @SinceKotlin("1.2")
 @kotlin.internal.InlineOnly
 public inline infix fun BigInteger.and(other: BigInteger): BigInteger = this.and(other)
 
+/** Performs a bitwise OR operation between the two values. */
 @SinceKotlin("1.2")
 @kotlin.internal.InlineOnly
 public inline infix fun BigInteger.or(other: BigInteger): BigInteger = this.or(other)
 
+/** Performs a bitwise XOR operation between the two values. */
 @SinceKotlin("1.2")
 @kotlin.internal.InlineOnly
 public inline infix fun BigInteger.xor(other: BigInteger): BigInteger = this.xor(other)
 
+/** Shifts this value left by [bits]. */
 @SinceKotlin("1.2")
 @kotlin.internal.InlineOnly
 public inline infix fun BigInteger.shl(n: Int): BigInteger = this.shiftLeft(n)
 
+/** Shifts this value right by [bits], filling the leftmost bits with copies of the sign bit. */
 @SinceKotlin("1.2")
 @kotlin.internal.InlineOnly
 public inline infix fun BigInteger.shr(n: Int): BigInteger = this.shiftRight(n)
 
 
-@SinceKotlin("1.2")
-@kotlin.internal.InlineOnly
-public inline fun String.toBigInteger(): BigInteger = BigInteger(this)
-
-@SinceKotlin("1.2")
-@kotlin.internal.InlineOnly
-public inline fun String.toBigInteger(radix: Int): BigInteger = BigInteger(this, checkRadix(radix))
-
-@SinceKotlin("1.2")
-public fun String.toBigIntegerOrNull(): BigInteger? = toBigIntegerOrNull(10)
-
-@SinceKotlin("1.2")
-public fun String.toBigIntegerOrNull(radix: Int): BigInteger? {
-    checkRadix(radix)
-    val length = this.length
-    when (length) {
-        0 -> return null
-        1 -> if (digitOf(this[0], radix) < 0) return null
-        else -> {
-            val start = if (this[0] == '-') 1 else 0
-            for (index in start until length) {
-                if (digitOf(this[index], radix) < 0)
-                    return null
-            }
-        }
-    }
-    return toBigInteger(radix)
-}
-
+/**
+ * Returns the value of this [Int] number as a [BigInteger].
+ */
 @SinceKotlin("1.2")
 @kotlin.internal.InlineOnly
 public inline fun Int.toBigInteger(): BigInteger = BigInteger.valueOf(this.toLong())
 
+/**
+ * Returns the value of this [Long] number as a [BigInteger].
+ */
 @SinceKotlin("1.2")
 @kotlin.internal.InlineOnly
 public inline fun Long.toBigInteger(): BigInteger = BigInteger.valueOf(this)
 
-
+/**
+ * Returns the value of this [BigInteger] number as a [BigDecimal].
+ */
 @SinceKotlin("1.2")
 @kotlin.internal.InlineOnly
 public inline fun BigInteger.toBigDecimal(): BigDecimal = BigDecimal(this)
 
+/**
+ * Returns the value of this [BigInteger] number as a [BigDecimal]
+ * scaled according to the specified [scale] and rounded according to the settings specified with [mathContext].
+ *
+ * @param scale the scale of the resulting [BigDecimal], i.e. number of decimal places of the fractional part.
+ * By default 0.
+ */
 @SinceKotlin("1.2")
 @kotlin.internal.InlineOnly
-public inline fun BigInteger.toBigDecimal(scale: Int = 0, mathContext: MathContext = MathContext.UNLIMITED): BigDecimal = BigDecimal(this, scale, mathContext)
+public inline fun BigInteger.toBigDecimal(scale: Int = 0, mathContext: MathContext = MathContext.UNLIMITED): BigDecimal =
+        BigDecimal(this, scale, mathContext)
 
